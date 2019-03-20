@@ -1,28 +1,29 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useRef } from 'react'
+import InfoPanel from './infoPanel'
+import List from './list'
+import useIsElementInView from './useIsElementInView'
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+const itemToCheckInViewPort = 30
+
+function App () {
+  const listItemRef = useRef(null)
+  const [isLightTheme, setLightTheme] = useState(true)
+  const isVisible = useIsElementInView(listItemRef)
+
+  return (
+    <div className={isLightTheme ? 'light' : 'dark'}>
+      <InfoPanel
+        isVisible={isVisible}
+        lightTheme={isLightTheme}
+        setLightTheme={setLightTheme}
+        itemToCheckInViewPort={itemToCheckInViewPort}
+      />
+      <List
+        listItemRef={listItemRef}
+        itemToCheckInViewPort={itemToCheckInViewPort}
+      />
+    </div>
+  )
 }
 
-export default App;
+export default App
